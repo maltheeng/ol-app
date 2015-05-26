@@ -1,47 +1,152 @@
-<!DOCTYPE html>
-<!--
-    Copyright (c) 2012-2014 Adobe Systems Incorporated. All rights reserved.
-
-    Licensed to the Apache Software Foundation (ASF) under one
-    or more contributor license agreements.  See the NOTICE file
-    distributed with this work for additional information
-    regarding copyright ownership.  The ASF licenses this file
-    to you under the Apache License, Version 2.0 (the
-    "License"); you may not use this file except in compliance
-    with the License.  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-    Unless required by applicable law or agreed to in writing,
-    software distributed under the License is distributed on an
-    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-     KIND, either express or implied.  See the License for the
-    specific language governing permissions and limitations
-    under the License.
--->
 <html>
-    <head>
-        <meta charset="utf-8" />
-        <meta name="format-detection" content="telephone=no" />
-        <meta name="msapplication-tap-highlight" content="no" />
-        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
-        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
-        <link rel="stylesheet" type="text/css" href="css/index.css" />
-        <title>Hello World</title>
-    </head>
-    <body>
-        <div class="app">
-            <h1>PhoneGap</h1>
-            <div id="deviceready" class="blink">
-			     her er malthe
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
-            </div>
-        </div>
-        <script type="text/javascript" src="cordova.js"></script>
-        <script type="text/javascript" src="js/index.js"></script>
-        <script type="text/javascript">
-            app.initialize();
-        </script>
-    </body>
+<head>
+ <title> min første webapp </title>
+ <!-- Include meta tag to ensure proper rendering and touch zooming -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Include jQuery Mobile stylesheets -->
+<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+
+<!-- Include the jQuery library -->
+<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+
+<!-- Include the jQuery Mobile library -->
+<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+
+</head>
+<body>
+<div data-role="page" id="pageone">
+
+  <div data-role="header">
+    <h1>Welcome To Ølby station</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+    <p>
+	   <h3> Tog afgange </h3>
+		<ul>
+			<h4> Mod københavn </h4>
+			<li> 7:30</li>
+			<li> 8:30</li>
+			<li> 9:30</li>
+			<li> 10:30</li>
+			<li> 11:30</li>
+			<h4> Mod Nykøbing F </h4>
+			<li> 7:45</li>
+			<li> 8:45</li>
+			<li> 9:45</li>
+			<li> 10:45</li>
+			<li> 11:45</li>
+			<li> 13:00 </li>
+		</ul>
+	</p>
+	
+  </div>
+
+  <div data-role="footer">
+		<div data-role="navbar">
+			<a href="#pageone" data-transition="slide"> Afgange </a>
+			<a href="#pagetwo" data-transition="slide"> Dagens Tilbud </a>
+			<a href="#pagethree" data-transition="slide"> Kort </a>
+		</div>
+	</div>
+
+</div>
+<div data-role="page" id="pagetwo">
+
+  <div data-role="header">
+    <h1>Welcome To Ølby station</h1>
+	
+  </div>
+
+  <div data-role="main" class="ui-content">
+    <p>
+	<h3> Dagens tilbud i Ølby station's cafe </h3>
+		<ul>
+			<h4> Varme drikke </h4>
+			<li> Kaffe 25kr.</li>
+			<li> Kakao 15kr.</li>
+			<li> Te 10kr</li>
+			
+			<h4> grill </h4>
+			<li> chees burge 30kr.</li>
+			<li> rød knæk med brød 25kr. </li>
+			<li> ristet hotdog 27kr.</li>
+			<li> tost 25kr </li>
+		</ul>
+	</p>
+
+  </div>
+
+  <div data-role="footer" style="bottom:0; position:absolute">
+		<div data-role="navbar">
+			<a href="#pageone" data-transition="slide"> Afgange </a>
+			<a href="#pagetwo" data-transition="slide"> Dagens Tilbud </a>
+			<a href="#pagethree" data-transition="slide"> Kort </a>
+		</div>
+	</div>
+</div>
+<div data-role="page" id="pagethree">
+
+  <div data-role="header">
+    <h1>Welcome To Ølby station</h1>
+  </div>
+
+  <div data-role="main" class="ui-content">
+   <p id="demo">Click the button to get your position.</p>
+
+<button onclick="getLocation()">Hent din posision</button>
+
+<div id="mapholder"></div>
+
+<script>
+var x = document.getElementById("demo");
+
+function getLocation() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(showPosition, showError);
+    } else {
+        x.innerHTML = "Geolocation is not supported by this browser.";
+    }
+}
+
+function showPosition(position) {
+    var latlon = position.coords.latitude + "," + position.coords.longitude;
+
+    var img_url = "http://maps.googleapis.com/maps/api/staticmap?center="
+    +latlon+"&zoom=14&size=400x300&sensor=false";
+    document.getElementById("mapholder").innerHTML = "<img src='"+img_url+"'>";
+}
+
+function showError(error) {
+    switch(error.code) {
+        case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+        case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+        case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+        case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+    }
+}
+</script>
+
+	
+  </div>
+
+	<div data-role="footer" style="bottom:0; position:absolute">
+		<div data-role="navbar">
+			<a href="#pageone" data-transition="slide"> Afgange </a>
+			<a href="#pagetwo" data-transition="slide"> Dagens Tilbud</a>
+			<a href="#pagethree" data-transition="slide"> Kort </a>
+		</div>
+   </div>
+
+</div>
+</body>
 </html>
